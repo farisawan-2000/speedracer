@@ -1,8 +1,35 @@
-_SDA_BASE_ = 0x-7FAA3D20;
-_SDA2_BASE_ = 0x-7FAA0A60;
+_SDA_BASE_ = 0x8055C2E0;
+_SDA2_BASE_ = 0x8055F5A0;
+MEMORY {
+    text0 : origin = 0x80004000
+    /*text1 : origin = 0x80006DA0
+    data0 : origin = 0x800064E0
+    data1 : origin = 0x80006860*/
+}
 SECTIONS
 {
-    .text0 BIND(0x80004000) : { *(.text0) }
+    .init ALIGN(0x20):{}
+    .text0 ALIGN(0x20):{}
+    .text1 ALIGN(0x20): AT(0x25E0) {}
+    .ctors ALIGN(0x20):{}
+    .dtors ALIGN(0x20):{}
+    .file ALIGN(0x20):{}
+    .rodata ALIGN(0x20):{}
+    .data0 ALIGN(0x20):{}
+    .data1 ALIGN(0x20):{}
+    .data2 ALIGN(0x20):{}
+    .data3 ALIGN(0x20):{}
+    .data4 ALIGN(0x20):{}
+    .data5 ALIGN(0x20):{}
+    .data6 ALIGN(0x20):{}
+    .data7 ALIGN(0x20):{}
+    .bss ALIGN(0x40):{} /* Hmm.. aligned to 0x40? Why? */
+    .sdata ALIGN(0x20):{}
+    .sbss ALIGN(0x20):{}
+    .sdata2 ALIGN(0x20):{}
+    .sbss2 ALIGN(0x20):{}
+    .stack ALIGN(0x100):{}
+    /*.text0 BIND(0x80004000) : { *(.text0) }
     .text1 BIND(0x80006DA0) : { *(.text1) }
     .data0 BIND(0x800064E0) : { *(.data0) }
     .data1 BIND(0x80006860) : { *(.data1) }
@@ -12,5 +39,5 @@ SECTIONS
     .data5 BIND(0x804922A0) : { *(.data5) }
     .data6 BIND(0x805542E0) : { *(.data6) }
     .data7 BIND(0x805575A0) : { *(.data7) }
-    .bss BIND(0x804D2540) : { *(.bss) }
+    .bss BIND(0x804D2540) : { *(.bss) }*/
 }
