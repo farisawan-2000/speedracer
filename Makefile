@@ -44,6 +44,8 @@ clean:
 
 DUMMY = mkdir -p build
 
+DUMMY != make -C tools
+
 main.s: baserom.dol
 	mkdir -p build
 
