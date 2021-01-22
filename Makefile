@@ -6,10 +6,10 @@ endif
 
 AS = /opt/devkitpro/devkitPPC/powerpc-eabi/bin/as
 # AS      := $(WINE) tools/GC_WII_COMPILERS/Wii/1.0/mwasmeppc.exe
-# LD = powerpc-linux-gnu-ld
-LD = /opt/devkitpro/devkitPPC/powerpc-eabi/bin/ld
+LD = powerpc-linux-gnu-ld
+# LD = /opt/devkitpro/devkitPPC/powerpc-eabi/bin/ld
 # LD      := $(WINE) tools/GC_WII_COMPILERS/Wii/1.0/mwldeppc.exe
-ELF2DOL = /opt/devkitpro/tools/bin/elf2dol
+ELF2DOL = tools/elf2dol -v -v
 OBJCOPY = /opt/devkitpro/devkitPPC/powerpc-eabi/bin/objcopy
 MD5SUM = md5sum
 CPP     := cpp -P -Wno-trigraphs
@@ -56,7 +56,7 @@ $(BUILD_DIR)/$(LD_SCRIPT): $(LD_SCRIPT)
 	-DBUILD_DIR=$(BUILD_DIR)
 
 $(BUILD_DIR)/speedracer.elf: $(O_FILES) $(BUILD_DIR)/$(LD_SCRIPT)
-	$(LD) $(LDFLAGS) -Map build/speedracer.map  -T $(BUILD_DIR)/$(LD_SCRIPT) -o $@ $(BUILD_DIR)/main.o
+	$(LD) $(LDFLAGS) -Map build/speedracer.map  -T $(BUILD_DIR)/$(LD_SCRIPT) -o $@ $(O_FILES)
 	$(OBJCOPY) $@ $@
 
 # $(BUILD_DIR)/speedracer.elf: $(O_FILES) $(LDSCRIPT)
@@ -70,5 +70,5 @@ $(BUILD_DIR)/speedracer.elf: $(O_FILES) $(BUILD_DIR)/$(LD_SCRIPT)
 
 
 $(BUILD_DIR)/speedracer.dol: $(BUILD_DIR)/speedracer.elf
-	$(ELF2DOL) $< $@ $(SDATA_PDHR) $(SBSS_PDHR) $(USES_SBSS2)
+	$(ELF2DOL) $< $@ $(SDATA_PDHR) $(SBSS_PDHR) $(USES_SBSS2) wii
 	$(MD5SUM) -c $(MD5_FILE)
