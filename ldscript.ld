@@ -1,10 +1,20 @@
+#define BEGIN_SEG(name, addr) \
+    _##name##SegmentStart = ADDR(.name); \
+    _##name##SegmentRomStart = __romPos; \
+    .name addr : AT(__romPos)
+
+#define END_SEG(name) \
+    _##name##SegmentEnd = ADDR(.name) + SIZEOF(.name); \
+    _##name##SegmentRomEnd = __romPos + SIZEOF(.name); \
+    __romPos += SIZEOF(.name);
+
 ENTRY(__start)
 _SDA_BASE_ = 0x8055C2E0;
 _SDA2_BASE_ = 0x8055F5A0;
 PHDRS
 {
-    text0 PT_LOAD;
-    text1 PT_LOAD;
+    init PT_LOAD;
+    text PT_LOAD;
     data0 PT_LOAD;
     data1 PT_LOAD;
     data2 PT_LOAD;
@@ -17,15 +27,28 @@ PHDRS
 }
 SECTIONS
 {
-    .text0 0x80004000 : { *(.text0) } : text0
-    .text1 0x80006DA0 : { *(.text1) } : text1
-    .data0 0x800064E0 : { *(.data0) } : data0
-    .data1 0x80006860 : { *(.data1) } : data1
-    .data2 0x80466860 : { *(.data2) } : data2
-    .data3 0x80466E60 : { *(.data3) } : data3
-    .data4 0x80466E80 : { *(.data4) } : data4
-    .data5 0x804922A0 : { *(.data5) } : data5
-    .data6 0x805542E0 : { *(.data6) } : data6
-    .data7 0x805575A0 : { *(.data7) } : data7
-    .bss 0x804D2540 (NOLOAD) : { *(.bss) } : bss
+    __romPos = 0x100;
+    BEGIN_SEG(init, 0x80004000) {
+        *(.init);
+    } : init
+    END_SEG(init)
+    BEGIN_SEG(text, 0x80006DA0) {
+        *(.text);
+    } : text
+    END_SEG(text)
+    .data0 0x800064E0 : SUBALIGN(0x20) { *(.data0) } : data0
+    .data1 0x80006860 : SUBALIGN(0x20) { *(.data1) } : data1
+    .data2 0x80466860 : SUBALIGN(0x20) { *(.data2) } : data2
+    .data3 0x80466E60 : SUBALIGN(0x20) { *(.data3) } : data3
+    .data4 0x80466E80 : SUBALIGN(0x20) { *(.data4) } : data4
+    .data5 0x804922A0 : SUBALIGN(0x20) { *(.data5) } : data5
+    .data6 0x805542E0 : SUBALIGN(0x20) { *(.data6) } : data6
+    .data7 0x805575A0 : SUBALIGN(0x20) { *(.data7) } : data7
+    .bss 0x804D2540 (NOLOAD) : SUBALIGN(0x20) { *(.bss) } : bss
+    /DISCARD/ :
+    {
+       *(*);
+    }
 }
+
+
