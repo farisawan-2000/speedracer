@@ -1,4 +1,4 @@
 baserom.dol
 build/*
-tools/GC_WII_COMPILERS_*
+tools/GC_WII_COMPILERS/*
 tools/elf2dol
