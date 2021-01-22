@@ -17,8 +17,8 @@ PHDRS
 }
 SECTIONS
 {
-    .text0 0x80004000 : AT(0x0) { *(.text0) } : text0
-    .text1 0x80006DA0 : AT(0x25E0) { *(.text1) } : text1
+    .text0 0x80004000 : { *(.text0) } : text0
+    .text1 0x80006DA0 : { *(.text1) } : text1
     .data0 0x800064E0 : { *(.data0) } : data0
     .data1 0x80006860 : { *(.data1) } : data1
     .data2 0x80466860 : { *(.data2) } : data2
