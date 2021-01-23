@@ -32,19 +32,20 @@ SECTIONS
         *(.init);
     } : init
     END_SEG(init)
-    BEGIN_SEG(text, 0x80006DA0) {
-        *(.text);
+    BEGIN_SEG(code, 0x80006DA0) SUBALIGN(0x8) {
+        build/./main.o(.text);
+        build/src/func_804667C8.o(.text);
     } : text
-    END_SEG(text)
-    .data0 0x800064E0 : SUBALIGN(0x20) { *(.data0) } : data0
-    .data1 0x80006860 : SUBALIGN(0x20) { *(.data1) } : data1
-    .data2 0x80466860 : SUBALIGN(0x20) { *(.data2) } : data2
-    .data3 0x80466E60 : SUBALIGN(0x20) { *(.data3) } : data3
-    .data4 0x80466E80 : SUBALIGN(0x20) { *(.data4) } : data4
-    .data5 0x804922A0 : SUBALIGN(0x20) { *(.data5) } : data5
-    .data6 0x805542E0 : SUBALIGN(0x20) { *(.data6) } : data6
-    .data7 0x805575A0 : SUBALIGN(0x20) { *(.data7) } : data7
-    .bss 0x804D2540 (NOLOAD) : SUBALIGN(0x20) { *(.bss) } : bss
+    END_SEG(code)
+    .data0 0x800064E0 : SUBALIGN(0x20) { build/data.o(.data0) } : data0
+    .data1 0x80006860 : SUBALIGN(0x20) { build/data.o(.data1) } : data1
+    .data2 0x80466860 : SUBALIGN(0x20) { build/data.o(.data2) } : data2
+    .data3 0x80466E60 : SUBALIGN(0x20) { build/data.o(.data3) } : data3
+    .data4 0x80466E80 : SUBALIGN(0x20) { build/data.o(.data4) } : data4
+    .data5 0x804922A0 : SUBALIGN(0x20) { build/data.o(.data5) } : data5
+    .data6 0x805542E0 : SUBALIGN(0x20) { build/data.o(.data6) } : data6
+    .data7 0x805575A0 : SUBALIGN(0x20) { build/data.o(.data7) } : data7
+    .bss 0x804D2540 (NOLOAD) : SUBALIGN(0x20) { build/data.o(.bss) } : bss
     /DISCARD/ :
     {
        *(*);

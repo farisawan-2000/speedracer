@@ -4,6 +4,7 @@ else
   WINE := wine
 endif
 
+CC = $(WINE) tools/Wii/1.0/mwcceppc.exe
 AS = /opt/devkitpro/devkitPPC/powerpc-eabi/bin/as
 # AS      := $(WINE) tools/GC_WII_COMPILERS/Wii/1.0/mwasmeppc.exe
 LD = powerpc-linux-gnu-ld
@@ -21,9 +22,16 @@ MD5_FILE = speedracer.md5
 BUILD_DIR = build
 
 ASM_DIRS := .
-S_FILES := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
-O_FILES := $(foreach file,$(S_FILES),$(BUILD_DIR)/$(file:.s=.o))
+SRC_DIRS = src
 
+S_FILES := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
+C_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+
+O_FILES := $(foreach file,$(C_FILES),$(BUILD_DIR)/$(file:.c=.o)) \
+           $(foreach file,$(S_FILES),$(BUILD_DIR)/$(file:.s=.o))
+
+ALL_DIRS = $(BUILD_DIR) $(addprefix $(BUILD_DIR)/,$(SRC_DIRS) $(ASM_DIRS))
+DUMMY != mkdir -p $(ALL_DIRS)
 
 # elf2dol needs to know these in order to calculate sbss correctly.
 SDATA_PDHR := 9
@@ -32,6 +40,8 @@ SBSS_PDHR := 10
 USES_SBSS2 := yes
 
 ASFLAGS := -mbroadway
+
+CFLAGS := -Cpp_exceptions off -proc gekko -fp hard -O4,p -nodefaults -msgstyle gcc
 # LDFLAGS := -fp hard -nodefaults -msgstyle gcc
 LDFLAGS := --no-check-sections --accept-unknown-input-arch
 
@@ -42,16 +52,15 @@ all: $(BUILD_DIR)/speedracer.dol
 clean:
 	rm -f -r $(BUILD_DIR)/*
 
-DUMMY = mkdir -p build
-
 DUMMY != make -C tools
 
 main.s: baserom.dol
-	mkdir -p build
 
 $(BUILD_DIR)/%.o: %.s
-	mkdir -p build
 	$(AS) $(ASFLAGS) -o $@ $<
+
+$(BUILD_DIR)/%.o: %.c
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 $(BUILD_DIR)/$(LD_SCRIPT): $(LD_SCRIPT)
 	$(CPP) -MMD -MP -MT $@ -MF $@.d -o $@ $< \

@@ -1,0 +1,12 @@
+{
+"@comment": "This file was made by hand.",
+
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x540"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}},
+"bin/data0.bin": {"meta": {"size":"0x380"}, "offsets":{"us":["0x4620A0","0x0"]}}
+}
