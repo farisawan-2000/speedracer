@@ -2,3 +2,5 @@ baserom.dol
 build/*
 tools/GC_WII_COMPILERS/*
 tools/elf2dol
+__pycache__/*
+tools/Wii/*
